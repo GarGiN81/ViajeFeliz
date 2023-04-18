@@ -123,7 +123,7 @@ do{
             }
             break;
         case '7': //Ver viaje
-            echo $objViaje->__toString();
+            echo $objViaje;
             break;
         default : //Salir
             $bandera=false;
