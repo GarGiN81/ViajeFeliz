@@ -3,16 +3,16 @@ class Viaje{
     private $codigo;
     private $destino;
     private $cantMaxPas;
-    private $coleccionPasajeros;//[dni=> ,nombre=>" ",apellido=>" "]
+    private $coleccionPasajeros;//referencia a objeto: pasajeros
+    private $objResponsable; //referencia a objeto: responsableV
 
 //metodo constructor
     public function __construct($cod,$dest,$cMax) {
         $this-> codigo = $cod;
         $this->destino=$dest;
         $this->cantMaxPas=$cMax;
-        $this->coleccionPasajeros=[];
-  
-
+        $this->coleccionPasajeros=new Pasajeros($vNombre,$vApellido,$vDni,$vTelefono);
+        $this->objResponsable= new ResponsableV($vNroEmp,$vNroLic,$vNombre,$vApellido);
     }
 //METODOS DE ACCESO
 //metodos get
