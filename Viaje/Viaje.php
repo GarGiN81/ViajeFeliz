@@ -10,6 +10,7 @@ class Viaje{
         $this-> codigo = $cod;
         $this->destino=$dest;
         $this->cantMaxPas=$cMax;
+        $this->coleccionPasajeros=[];
   
 
     }
@@ -40,117 +41,130 @@ class Viaje{
     public function setColeccionPasajeros($coleccionPasajeros){
         $this->coleccionPasajeros=$coleccionPasajeros;
     }
-//Funciones de carga
+//*********FUNCIONES PARA VER DATOS CARGADOS***********
+/**
+ * Funcion que muestra los datos de pasajeros cargados
+ * 
+ */
+    public function mostrarDatosPasajero(){
+        $cadena="";
+        $i=0;
+        $colPas=$this->getColeccionPasajeros();
+        for($i=0;$i<count($colPas);$i++){
+            $nombre=$colPas[$i]["Nombre"];
+            $apellido=$colPas[$i]["Apellido"];
+            $dni=$colPas[$i]["DNI"];
+            $cadena=$cadena."
+            Pasajero: ".$i."\n 
+            Nombre: ".$nombre."\n
+            Apellido: ". $apellido."\n 
+            DNI: ".$dni."\n";
+        }
+        return $cadena;
+       }
+    /**
+    * 
+    */
+    public function __toString() {
+        $cadena="";
+        $cadena="
+        Datos del viaje: \n
+        Código: ".$this->getCodigo()."\n 
+        Destino: ".$this->getDestino()."\n
+        Cantidad Maxima de Pasajeros: ".$this->getCantMaxPas()."\n
+        Pasajeros: ".$this->mostrarDatosPasajero();
+        return $cadena;
+    }
+//**********************FUNCIONES DE CARGA***********************
+/**
+ * 
+ */
+    public function buscarPasajero($dni){
+        $colPas=$this->getColeccionPasajeros();
+        $i=0;
+        $encontro=false;
+        while($i<count($colPas)&&!$encontro){
+            if ($colPas[$i]['DNI']==$dni){
+                $encontro=true;
+
+            }
+            $i++;
+        }
+        return $i-1;
+}
+
+public function encontroPasajero($buscaDni){
+    $encontrado=false;
+    $colPas=$this->getColeccionPasajeros();
+    $indice=$this->buscarPasajero($buscaDni);
+    if($indice>0 && $indice<(count($colPas)-1)){
+        $encontrado=true;
+    }
+    return $encontrado;
+}
+
 /**
  *Funcion para agregar pasajero
  *@param array $pasajeros ["Nombre"=>,"Apellido"=>"DNI"=>]
  *@return bool $puedeAgregar
 */
-
-    public function agregarPasajero($pasajeros){
+    public function agregarPasajero($dni,$nombre,$apellido){
         $puedeAgregar=false;
-        $arrayPasajeros=$this->getColeccionPasajeros();
-        if(in_array($pasajeros, $this->getColeccionPasajeros())){
-            $puedeAgregar=false;
-        }else{
-            array_push($arrayPasajeros,$pasajeros);
-            $this->setColeccionPasajeros($arrayPasajeros);
+        $colPas=$this->getColeccionPasajeros();
+        if($this->puedeAbordar()==true){
+            $colPas[count($colPas)]=['Nombre'=>$nombre, 'Apellido'=>$apellido, 'DNI'=>$dni];
+            $this->setColeccionPasajeros($colPas);
             $puedeAgregar=true;
 
-            }
-            return $puedeAgregar;
+        }
+        return $puedeAgregar;
 
     }
-    /**public function agregarPasajero($claveDni){
-        //foreach($this->getColeccionPasajeros() as $key =>$clave){}
-        $clave=array_search(array_keys($claveDni),$this->getColeccionPasajeros());
-    }*/
 
-    //funcion que compara la cantidad disponible con los datos cargados
-        public function puedeAbordar(){
-            $aborda=true;
-            $totalPasajero=($this->getColeccionPasajeros().ob_get_length());
-            if($this->getCantMaxPas()<=$totalPasajero){
-                $aborda=false;
-            }
-            return $aborda;
-        }
-
-
-
-        //funcion que elimina o quita un pasajero
-       /**public function eliminarPasajero($pasajero){
-        $esEliminado=false;
-        if(in_array($pasajero,$this->getColeccionPasajeros())){
-            $clave=array_search(array_keys($pasajero),$this->getColeccionPasajeros());
-            array_splice($this->getColeccionPasajeros(),$clave,1);
-            $this->setColeccionPasajeros($this->getColeccionPasajeros());
-            $esEliminado= true;
-        }
-        return $esEliminado;
-       }*/
-
-       public function eliminarPasajero2($dniP){
-        $nroColeccion=0;
-        $esEliminado=false;
-        $cantPasajeros=count($this->getColeccionPasajeros());
-        while($nroColeccion <= $cantPasajeros && $esEliminado==false){
-            if($this->getColeccionPasajeros()["DNI"]==$dniP){
-                $clave=array_search($dniP,$this->getColeccionPasajeros());
-                array_splice($this->getColeccionPasajeros(),$clave,1);
-                $this->setColeccionPasajeros($this->getColeccionPasajeros());
-                $esEliminado=true;
-            }
-            return $esEliminado;
-
-        }
-
-
-       }
 /**
- *
+ * funcion que compara la cantidad disponible con los datos cargados     
+*/
+    public function puedeAbordar(){
+        $aborda=false;
+        $colPas=$this->getColeccionPasajeros();
+        if($this->getCantMaxPas()>=count($colPas)){
+            $aborda=true;
+        }
+        return $aborda;
+    }
+/**
+ *funcion que modfica un pasajero a partir de un dni buscado
  *  
  */
-       public function modificarPasajero($pasajeroAnt, $pasajeroMod){
-        $esModificado=false;
-        if(in_array($pasajeroAnt,$this->getColeccionPasajeros())){
-            $clave=array_search(array_keys($pasajeroAnt),$this->getCantMaxPas());
-            $this->getColeccionPasajeros()[$clave]=$pasajeroMod;
-            $this->setColeccionPasajeros($this->getColeccionPasajeros());
-            $esModificado=true;
-        }
-        return $esModificado;
-
-       }
-       /**
-        * 
-
-        */
-       public function colPasString(){
-        $pasajeroStr="";
+public function modificarPasajero($dni,$nombre,$apellido,$buscarDni){
+    $indice=$this->buscarPasajero($buscarDni);
+    if($indice>0){
         $colPas=$this->getColeccionPasajeros();
-        foreach($colPas as $key =>$clave){
-            $nombre=$clave["Nombre"];
-            $apellido=$clave["Apellido"];
-            $dni=$clave["DNI"];
-            $pasajeroStr="
-            Nombre: $nombre.\n
-            Apellido: $apellido.\n
-            DNI: $dni \n";
-        }
-        return $pasajeroStr;
-       }
-       public function __toString() {
-
-        $pasajeros=$this->colPasString();
-        $cadena="
-        Datos del viaje: \n
-        Código: {$this->getCodigo()}.\n
-        Destino: {$this->getDestino()}.\n
-        Cantidad Máxima de Pasajeros: {$this->getCantMaxPas()}.\n
-        Datos de los Pasajeros: \n
-        $pasajeros";
-        return $cadena;
-        }
+        $colPas[$indice]['Nombre']=$nombre;
+        $colPas[$indice]['Apellido']=$apellido;
+        $colPas[$indice]['DNI']=$dni;
+        $this->setColeccionPasajeros($colPas);
     }
+    return $indice;
+
+   }
+   public function eliminarPasajero($dni){
+    $esEliminado=false;
+    $nombreE=null;
+    $apellidoE=null;
+    $dniE=null;
+    $colPas=$this->getColeccionPasajeros();
+    $indice=$this->buscarPasajero($dni);
+    if($indice>0){
+        $colPas[$indice]['Nombre']=$nombreE;
+        $colPas[$indice]['Apellido']=$apellidoE;
+        $colPas[$indice]['DNI']=$dniE;
+        $this->setColeccionPasajeros($colPas);
+        $esEliminado=true;
+    }
+    return $esEliminado;
+   }
+
+}
+
 ?>
