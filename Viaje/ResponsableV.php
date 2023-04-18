@@ -39,6 +39,15 @@ public function setNombre($nombre){
 public function setApellido($apellido){
     $this->apellido=$apellido;
 } 
-
+//metodos de lectura
+public function __toString(){
+    $cadena="";
+    return $cadena=
+    "Nro Empleado: ".$nroEmpleado."\n
+     Nro Licencia: ".$nroLicencia."\n
+     Nombre: ".$nombre."\n
+     Apellido: ".$apellido;
+     
+}
 }
 ?>

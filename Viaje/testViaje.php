@@ -1,4 +1,6 @@
 <?php
+include ("Pasajeros.php");
+include ("ResponsableV.php");
 include_once ("Viaje.php");
 
 
@@ -16,16 +18,16 @@ $cMax=trim(fgets(STDIN));
 $objViaje=new Viaje($cod,$dest,$cMax);
 
 //lista precargada de 10 pasajeros
-    $colPasajero[0]=['Nombre'=>"JOSE",'Apellido'=>"SUAREZ",'DNI'=>'16111464'];
-    $colPasajero[1]=['Nombre'=>"MARIA",'Apellido'=>"MERINO",'DNI'=>'28122201'];
-    $colPasajero[2]=['Nombre'=>"JUAN",'Apellido'=>"SUAREZ",'DNI'=>'18222333'];
-    $colPasajero[3]=['Nombre'=>"JOSE",'Apellido'=>"GUTIERREZ",'DNI'=>'22122136'];
-    $colPasajero[4]=['Nombre'=>"MARIO",'Apellido'=>"VILLABLANCA",'DNI'=>'21145023'];
-    $colPasajero[5]=['Nombre'=>"SEBASTIAN",'Apellido'=>"SAN MARTIN",'DNI'=>'16455533'];
-    $colPasajero[6]=['Nombre'=>"ROBERTO",'Apellido'=>"LAVALLE",'DNI'=>'78563412'];
-    $colPasajero[7]=['Nombre'=>"VIVIANA",'Apellido'=>"GONZALEZ",'DNI'=>'98365787'];
-    $colPasajero[8]=['Nombre'=>"ANTONELA",'Apellido'=>"MARIN",'DNI'=>'45365452'];
-    $colPasajero[9]=['Nombre'=>"KEVIN",'Apellido'=>"FIGUEROA",'DNI'=>'36452785'];
+    $colPasajero[0]=['Nombre'=>"JOSE",'Apellido'=>"SUAREZ",'DNI'=>'16111464','Telefono'=>'5685894'];
+    $colPasajero[1]=['Nombre'=>"MARIA",'Apellido'=>"MERINO",'DNI'=>'28122201','Telefono'=>'4586972'];
+    $colPasajero[2]=['Nombre'=>"JUAN",'Apellido'=>"SUAREZ",'DNI'=>'18222333','Telefono'=>'2536786'];
+    $colPasajero[3]=['Nombre'=>"JOSE",'Apellido'=>"GUTIERREZ",'DNI'=>'22122136','Telefono'=>'4457845'];
+    $colPasajero[4]=['Nombre'=>"MARIO",'Apellido'=>"VILLABLANCA",'DNI'=>'21145023','Telefono'=>'1256458'];
+    $colPasajero[5]=['Nombre'=>"SEBASTIAN",'Apellido'=>"SAN MARTIN",'DNI'=>'16455533','Telefono'=>'4052783'];
+    $colPasajero[6]=['Nombre'=>"ROBERTO",'Apellido'=>"LAVALLE",'DNI'=>'78563412','Telefono'=>'4523854'];
+    $colPasajero[7]=['Nombre'=>"VIVIANA",'Apellido'=>"GONZALEZ",'DNI'=>'98365787','Telefono'=>'6545368'];
+    $colPasajero[8]=['Nombre'=>"ANTONELA",'Apellido'=>"MARIN",'DNI'=>'45365452','Telefono'=>'5601037'];
+    $colPasajero[9]=['Nombre'=>"KEVIN",'Apellido'=>"FIGUEROA",'DNI'=>'36452785','Telefono'=>'4078980'];
     $objViaje->setColeccionPasajeros($colPasajero);
 
 

@@ -43,23 +43,30 @@ public function setTelefono($telefono){
 }
 
 //metodos de visualización de datos
-//metodo toString
-public function __toString(){
+
+public function mostrarDatosPasajero(){
     $cadena="";
     $i=0;
-    $colPas=$this->getColeccionPasajeros();
+    $colPas=[];
     for($i=0;$i<count($colPas);$i++){
         $nombre=$colPas[$i]["Nombre"];
         $apellido=$colPas[$i]["Apellido"];
-        $dni=$colPas[$i]["DNI"];
+        $nroDni=$colPas[$i]["DNI"];
+        $telefono=$colPas[$i]["Telefono"];
         $cadena=$cadena."
         Pasajero: ".$i."\n 
         Nombre: ".$nombre."\n
         Apellido: ". $apellido."\n 
-        DNI: ".$dni."\n
+        DNI: ".$nroDni."\n
         Telefono: ".$telefono."\n";
     }
     return $cadena;
+   }
+
+//metodo toString
+public function __toString(){
+    $pasajeroString=$this->mostrarDatosPasajero;
+    return $pasajeroString;
    }
 
 
