@@ -15,7 +15,20 @@ echo "Ingrese destino del viaje: ";
 $dest=trim(fgets(STDIN));
 echo "Ingrese cantidad máxima de pasajeros que pueden abordar: ";
 $cMax=trim(fgets(STDIN));
-$objViaje=new Viaje($cod,$dest,$cMax);
+echo "A continuación ingrese los Datos del Responsable del Viaje: \n";
+echo "Ingrese Número del empleado: ";
+$nroEmpleado=trim(fgets(STDIN));
+echo "Ingrese número de Licencia: ";
+$nroLic=trim(fgets(STDIN));
+echo "Ingrese Nombre: ";
+$nombreRespV=trim(fgets(STDIN));
+echo "Ingrese Apellido: ";
+$apellidoRespV=trim(fgets(STDIN));
+$objResponsableV=new ResponsableV($nroEmpleado,$nroLic,$nombreRespV,$apellidoRespV);
+
+$objViaje=new Viaje($cod,$dest,$cMax,$objResponsableV);
+
+
 
 //lista precargada de 10 pasajeros
     $colPasajero[0]=['Nombre'=>"JOSE",'Apellido'=>"SUAREZ",'DNI'=>'16111464','Telefono'=>'5685894'];
@@ -28,7 +41,7 @@ $objViaje=new Viaje($cod,$dest,$cMax);
     $colPasajero[7]=['Nombre'=>"VIVIANA",'Apellido'=>"GONZALEZ",'DNI'=>'98365787','Telefono'=>'6545368'];
     $colPasajero[8]=['Nombre'=>"ANTONELA",'Apellido'=>"MARIN",'DNI'=>'45365452','Telefono'=>'5601037'];
     $colPasajero[9]=['Nombre'=>"KEVIN",'Apellido'=>"FIGUEROA",'DNI'=>'36452785','Telefono'=>'4078980'];
-    $objViaje->setColeccionPasajeros($colPasajero);
+    $objViaje->setObjColPasajeros($colPasajero);
 
 
 
@@ -81,19 +94,27 @@ do{
         case '4': //Agregar Pasajero
             if($objViaje->puedeAbordar()){
                 echo "Ingrese los datos del pasajero: \n";
-                echo "Nombre: \n";
-                $nombre= strtoupper(trim(fgets(STDIN)));
-                echo "Apellido: \n";
-                $apellido=strtoupper(trim(fgets(STDIN)));
-                echo "DNI: \n";
-                $dni=trim(fgets(STDIN));
-                if($objViaje->agregarPasajero($dni,$nombre,$apellido)){
+                echo "Nombre: ";
+                $nombrePas= strtoupper(trim(fgets(STDIN)));
+                echo "Apellido: ";
+                $apellidoPas=strtoupper(trim(fgets(STDIN)));
+                echo "DNI: ";
+                $dniPas=trim(fgets(STDIN));
+                echo "Telefono: ";
+                $telefonoPas=trim(fgets(STDIN));
+                if(!$objViaje->encontroPasajero($dniPas)){
+                    $objPasajeros=new Pasajeros($nombrePas,$apellidoPas,$dniPas,$telefonoPas);
+                    if($objViaje->agregarPasajero($dniPas,$nombrePas,$apellidoPas,$telefonoPas)){
                     echo "Pasajero agregado. \n";
-                };
+                    }
+                }else{
+                    echo "No se pudo agregar. \n";
+                    echo "El Pasajero ingresado ya existe";
+                }
                 
             }else{
-                echo "No se pudo agregar. \n
-                Se ha alcanzado el límite de pasajeros o el pasajero ya existe";
+                echo "No se pudo agregar. \n";
+                echo "Se ha alcanzado el límite de pasajeros";
             } 
             break;
         case '5': //Quitar Pasajero

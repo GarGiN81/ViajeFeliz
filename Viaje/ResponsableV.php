@@ -8,8 +8,8 @@ class ResponsableV{
 public function __construct($rNroEmpleado,$rNroLicencia,$rNombre,$rApellido){
     $this->nroEmpleado=$rNroEmpleado;
     $this->nroLicencia=$rNroLicencia;
-    $this->nombre=$nombre;
-    $this->apellido=$apellido;
+    $this->nombre=$rNombre;
+    $this->apellido=$rApellido;
 }
 
 // METODOS DE ACCESO
@@ -47,7 +47,7 @@ public function __toString(){
      Nro Licencia: ".$nroLicencia."\n
      Nombre: ".$nombre."\n
      Apellido: ".$apellido;
-     
+
 }
 }
 ?>
