@@ -16,7 +16,7 @@ public function __construct($pNombre,$pApellido,$pDni,$pTelefono){
 
 //metodos GET
 public function getNombre(){
-    return $this->Nombre;
+    return $this->nombre;
 }
 public function getApellido(){
     return $this->apellido;

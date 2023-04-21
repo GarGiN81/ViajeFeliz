@@ -43,10 +43,10 @@ public function setApellido($apellido){
 public function __toString(){
     $cadena="";
     return $cadena=
-    "Nro Empleado: ".$nroEmpleado."\n
-     Nro Licencia: ".$nroLicencia."\n
-     Nombre: ".$nombre."\n
-     Apellido: ".$apellido;
+    "Nro Empleado: ".$this->getNroEmpleado()."\n
+     Nro Licencia: ".$this->getNroLicencia()."\n
+     Nombre: ".$this->getNombre()."\n
+     Apellido: ".$this->getApellido()."\n";
 
 }
 }

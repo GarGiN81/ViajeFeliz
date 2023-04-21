@@ -1,7 +1,16 @@
 <?php
-include ("Pasajeros.php");
-include ("ResponsableV.php");
+include_once ("Pasajeros.php");
+include_once ("ResponsableV.php");
 include_once ("Viaje.php");
+
+//lista precargada de 5 pasajeros
+$colPasajero=[
+    new Pasajeros("JOSE","SUAREZ","16111464","5685894"),
+    new Pasajeros("MARIA","MERINO","28122201","4586972"),
+    new Pasajeros("SEBASTIAN","SAN MARTIN","16455533","4052783"),
+    new Pasajeros("VIVIANA","GONZALEZ","98365787","6545368"),
+    new Pasajeros("ROBERTO","LAVALLE","78563412","4523854")
+];
 
 
 //MENU INICIAL
@@ -12,7 +21,7 @@ echo "Para comenzar, por favor ingrese los siguientes datos: \n";
 echo "Ingrese código del viaje: ";
 $cod=trim(fgets(STDIN));
 echo "Ingrese destino del viaje: ";
-$dest=trim(fgets(STDIN));
+$dest=strtoupper(trim(fgets(STDIN)));
 echo "Ingrese cantidad máxima de pasajeros que pueden abordar: ";
 $cMax=trim(fgets(STDIN));
 echo "A continuación ingrese los Datos del Responsable del Viaje: \n";
@@ -21,27 +30,28 @@ $nroEmpleado=trim(fgets(STDIN));
 echo "Ingrese número de Licencia: ";
 $nroLic=trim(fgets(STDIN));
 echo "Ingrese Nombre: ";
-$nombreRespV=trim(fgets(STDIN));
+$nombreRespV=strtoupper(trim(fgets(STDIN)));
 echo "Ingrese Apellido: ";
-$apellidoRespV=trim(fgets(STDIN));
+$apellidoRespV=strtoupper(trim(fgets(STDIN)));
 $objResponsableV=new ResponsableV($nroEmpleado,$nroLic,$nombreRespV,$apellidoRespV);
 
-$objViaje=new Viaje($cod,$dest,$cMax,$objResponsableV);
+$objViaje=new Viaje($cod,$dest,$cMax,$objResponsableV,$colPasajero);
 
 
 
-//lista precargada de 10 pasajeros
-    $colPasajero[0]=['Nombre'=>"JOSE",'Apellido'=>"SUAREZ",'DNI'=>'16111464','Telefono'=>'5685894'];
-    $colPasajero[1]=['Nombre'=>"MARIA",'Apellido'=>"MERINO",'DNI'=>'28122201','Telefono'=>'4586972'];
-    $colPasajero[2]=['Nombre'=>"JUAN",'Apellido'=>"SUAREZ",'DNI'=>'18222333','Telefono'=>'2536786'];
-    $colPasajero[3]=['Nombre'=>"JOSE",'Apellido'=>"GUTIERREZ",'DNI'=>'22122136','Telefono'=>'4457845'];
-    $colPasajero[4]=['Nombre'=>"MARIO",'Apellido'=>"VILLABLANCA",'DNI'=>'21145023','Telefono'=>'1256458'];
-    $colPasajero[5]=['Nombre'=>"SEBASTIAN",'Apellido'=>"SAN MARTIN",'DNI'=>'16455533','Telefono'=>'4052783'];
-    $colPasajero[6]=['Nombre'=>"ROBERTO",'Apellido'=>"LAVALLE",'DNI'=>'78563412','Telefono'=>'4523854'];
-    $colPasajero[7]=['Nombre'=>"VIVIANA",'Apellido'=>"GONZALEZ",'DNI'=>'98365787','Telefono'=>'6545368'];
-    $colPasajero[8]=['Nombre'=>"ANTONELA",'Apellido'=>"MARIN",'DNI'=>'45365452','Telefono'=>'5601037'];
-    $colPasajero[9]=['Nombre'=>"KEVIN",'Apellido'=>"FIGUEROA",'DNI'=>'36452785','Telefono'=>'4078980'];
-    $objViaje->setObjColPasajeros($colPasajero);
+
+//lista precargada de 10 pasajeros(PRIMERA ENTREGA)
+    //$colPasajero[0]=['Nombre'=>"JOSE",'Apellido'=>"SUAREZ",'DNI'=>'16111464','Telefono'=>'5685894'];
+    //$colPasajero[1]=['Nombre'=>"MARIA",'Apellido'=>"MERINO",'DNI'=>'28122201','Telefono'=>'4586972'];
+    //$colPasajero[2]=['Nombre'=>"JUAN",'Apellido'=>"SUAREZ",'DNI'=>'18222333','Telefono'=>'2536786'];
+    //$colPasajero[3]=['Nombre'=>"JOSE",'Apellido'=>"GUTIERREZ",'DNI'=>'22122136','Telefono'=>'4457845'];
+    //$colPasajero[4]=['Nombre'=>"MARIO",'Apellido'=>"VILLABLANCA",'DNI'=>'21145023','Telefono'=>'1256458'];
+    //$colPasajero[5]=['Nombre'=>"SEBASTIAN",'Apellido'=>"SAN MARTIN",'DNI'=>'16455533','Telefono'=>'4052783'];
+    //$colPasajero[6]=['Nombre'=>"ROBERTO",'Apellido'=>"LAVALLE",'DNI'=>'78563412','Telefono'=>'4523854'];
+    //$colPasajero[7]=['Nombre'=>"VIVIANA",'Apellido'=>"GONZALEZ",'DNI'=>'98365787','Telefono'=>'6545368'];
+    //$colPasajero[8]=['Nombre'=>"ANTONELA",'Apellido'=>"MARIN",'DNI'=>'45365452','Telefono'=>'5601037'];
+    //$colPasajero[9]=['Nombre'=>"KEVIN",'Apellido'=>"FIGUEROA",'DNI'=>'36452785','Telefono'=>'4078980'];
+    //$objViaje->setObjColPasajeros($colPasajero);
 
 
 
@@ -103,8 +113,12 @@ do{
                 echo "Telefono: ";
                 $telefonoPas=trim(fgets(STDIN));
                 if(!$objViaje->encontroPasajero($dniPas)){
-                    $objPasajeros=new Pasajeros($nombrePas,$apellidoPas,$dniPas,$telefonoPas);
-                    if($objViaje->agregarPasajero($dniPas,$nombrePas,$apellidoPas,$telefonoPas)){
+                    $obtenerCol=$objViaje->getObjColPasajeros();
+                    $colPasajero=[
+                        new Pasajeros($nombrePas,$apellidoPas,$dniPas,$telefonoPas)
+                    ];
+                    $pasarColeccion[count($obtenerCol)]=$colPasajero;
+                    if($objViaje->agregarPasajero($pasarColeccion)){
                     echo "Pasajero agregado. \n";
                     }
                 }else{

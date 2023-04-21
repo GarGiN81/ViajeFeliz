@@ -7,15 +7,15 @@ class Viaje{
     private $objResponsable; //referencia a objeto: responsableV
 
 //metodo constructor
-    public function __construct($cod,$dest,$cMax,$objRespV) {
+    public function __construct($cod,$dest,$cMax,$objRespV,$objColPas) {
         $this-> codigo = $cod;
         $this->destino=$dest;
         $this->cantMaxPas=$cMax;
-        $this->objColPasajeros=[];
+        $this->objColPasajeros=$objColPas;
         $this->objResponsable=$objRespV;
     }
 //METODOS DE ACCESO
-//metodos get
+//metodos get 
     public function getCodigo(){
         return $this->codigo;
     }
@@ -53,35 +53,13 @@ class Viaje{
  * 
  */
 
-public function verResponsable(){
-    $strResponsable="";
-    $objResp=$this->getObjResponsable();
-    $strResponsable="Nro Empleado: ".$objResp->getNroEmpleado()."\n
-                     Nro Licencia: ".$objResp->getNroLicencia()."\n
-                     Nombre: ".$objResp->getNombre()."\n
-                     Apellido: ".$objResp->getApellido()."\n";
-    return $strResponsable;
-}
 
 public function mostrarDatosPasajero(){
-    $cadena="";
-    $i=0;
-    $nombre= $this->getObjColPasajeros()->getNombre();
-    $apellido=$this->getObjColPasajeros()->getApellido();
-    $nroDni=$this->getObjColPasajeros()->getNroDni();
-    $telefono=$this->getObjColPasajeros()->getTelefono();
-    $colPas=$this->getObjColPasajeros;
-    for($i=0;$i<count($colPas);$i++){
-        $nombre=$colPas[$i]["Nombre"];
-        $apellido=$colPas[$i]["Apellido"];
-        $nroDni=$colPas[$i]["DNI"];
-        $telefono=$colPas[$i]["Telefono"];
-        $cadena=$cadena."
-        Pasajero: ".$i."\n 
-        Nombre: ".$nombre."\n
-        Apellido: ". $apellido."\n 
-        DNI: ".$nroDni."\n
-        Telefono: ".$telefono."\n";
+    $cadena=" ";
+    $colPas=$this->getObjColPasajeros();
+    $cantidad=count($colPas);
+    for($i=0;$i<$cantidad;$i++){
+        $cadena=$cadena."Pasajero: ".$i."\n".$colPas[$i];
     }
     return $cadena;
    }
@@ -97,8 +75,8 @@ public function mostrarDatosPasajero(){
         Código: ".$this->getCodigo()."\n 
         Destino: ".$this->getDestino()."\n
         Cantidad Maxima de Pasajeros: ".$this->getCantMaxPas()."\n
-        Responsable: ".$this->verResponsable()."\n
-        Pasajeros: ".$this->mostrarDatosPasajero();
+        Responsable: \n".$this->getObjResponsable()."\n
+        Pasajeros: \n".$this->mostrarDatosPasajero()."\n";
         return $cadena;
     }
 //**********************FUNCIONES DE CARGA***********************
@@ -110,7 +88,8 @@ public function mostrarDatosPasajero(){
         $i=0;
         $encontro=false;
         while($i<count($objColPas)&&!$encontro){
-            if ($objColPas[$i]['DNI']==$dni){
+            $colPas=$objColPas[$i];
+            if ($colPas->getNroDni()==$dni){
                 $encontro=true;
 
             }
@@ -134,12 +113,12 @@ public function encontroPasajero($buscaDni){
  *@param array $pasajeros ["Nombre"=>,"Apellido"=>"DNI"=>]
  *@return bool $puedeAgregar
 */
-    public function agregarPasajero($dni,$nombre,$apellido,$telefono){
+    public function agregarPasajero($colPasNuevo){
         $puedeAgregar=false;
         $objColPas=$this->getObjColPasajeros();
         if($this->puedeAbordar()==true){
-            $objColPas[count($objColPas)]=['Nombre'=>$nombre, 'Apellido'=>$apellido, 'DNI'=>$dni, 'Telefono'=>$telefono];
-            $this->setObjColPasajeros($objColPas);
+           $coleccionPas[]=$colPasNuevo;
+            $this->setObjColPasajeros($coleccionPas);
             $puedeAgregar=true;
 
         }
