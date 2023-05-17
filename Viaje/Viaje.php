@@ -68,7 +68,7 @@ public function mostrarDatosPasajero(){
     * 
     */
     public function __toString() {
-        $objPasajeros=$this->getObjColPasajeros();
+        
         $cadena="";
         $cadena="
         Datos del viaje: \n
@@ -116,9 +116,23 @@ public function encontroPasajero($buscaDni){
     public function agregarPasajero($colPasNuevo){
         $puedeAgregar=false;
         $objColPas=$this->getObjColPasajeros();
-        if($this->puedeAbordar()==true){
-           $coleccionPas[]=$colPasNuevo;
-            $this->setObjColPasajeros($coleccionPas);
+        $objPasajero=[];
+
+        if($this->puedeAbordar()=="true"){
+            echo $this->puedeAbordar();
+            echo "lala";
+            for ($i=0;$i<count($colPasNuevo);$i++){
+                $objColPas[]=$colPasNuevo[$i];
+            //    echo $objPasajero;
+                //$objColPas[]=$objPasajero;
+            }
+
+       //    $coleccionPas[]=$colPasNuevo;
+
+           
+           print_r($objColPas);
+//            $this->setObjColPasajeros($coleccionPas);
+            $this->setObjColPasajeros($objColPas);
             $puedeAgregar=true;
 
         }
